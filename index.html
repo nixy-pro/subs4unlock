@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Profile Card (v-Final)</title>
+    <title>GitHub Profile Card (Final)</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,8 +29,10 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             
-            display: grid;
-            place-items: center;
+            /* --- METODE CENTERING PALING KOMPATIBEL --- */
+            display: flex;
+            justify-content: center; /* Rata tengah horizontal */
+            align-items: center;   /* Rata tengah vertikal */
             min-height: 100vh;
             padding: 1.5rem;
 
@@ -114,8 +116,7 @@
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(47, 129, 247, 0.3);
         }
-
-        /* === PERBAIKAN FINAL UNTUK MENGHAPUS KOTAK PUTIH === */
+        
         .profile-button,
         .profile-button:focus,
         .profile-button:active {
