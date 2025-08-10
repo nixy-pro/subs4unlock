@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Profile Card (v-Final)</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        :root {
+            --card-bg: rgba(22, 27, 34, 0.75);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f0f6fc;
+            --text-secondary: #8d96a0;
+            --accent-color: #2f81f7;
+            --accent-hover: #468ff7;
+            --skeleton-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            
+            display: grid;
+            place-items: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+
+            background: linear-gradient(-45deg, #0d1117, #1f1a30, #1a2f3a, #102a23);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        /* === SKELETON LOADER === */
+        .skeleton-loader {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 2rem;
+            width: 100%;
+        }
+        .skeleton-avatar { height: 90px; width: 90px; border-radius: 50%; margin: 0 auto 1rem; }
+        .skeleton-line { height: 20px; border-radius: 6px; margin: 0 auto; }
+        .skeleton-line.w-75 { width: 75%; }
+        .skeleton-line.w-50 { width: 50%; margin-top: 0.75rem; }
+        .skeleton-stats { margin-top: 2rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .skeleton-stat { height: 40px; border-radius: 8px; }
+        .shimmer {
+            animation: shimmer 1.5s infinite linear;
+            background: linear-gradient(90deg, var(--skeleton-bg) 25%, rgba(255,255,255,0.1) 50%, var(--skeleton-bg) 75%);
+            background-size: 200% 100%;
+        }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        /* === PROFILE CARD === */
+        .profile-card {
+            display: none;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.5);
+            text-align: center;
+            animation: fadeIn 0.6s ease-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        
+        #gh-avatar { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--accent-color); margin-bottom: 1rem; }
+        #gh-name { font-size: 1.75rem; font-weight: 700; }
+        #gh-username { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
+        #gh-bio { font-size: 1rem; color: var(--text-secondary); line-height: 1.6; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center; margin: 2rem 0; border-top: 1px solid var(--card-border); border-bottom: 1px solid var(--card-border); padding: 1.5rem 0; }
+        .stat-item span { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); }
+        .stat-item p { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .profile-button { 
+            display: inline-block;
+            width: 100%;
+            padding: 0.9rem; 
+            background-color: var(--accent-color); 
+            color: #fff; 
+            text-decoration: none; 
+            font-weight: 600; 
+            border-radius: 8px; 
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(47, 129, 247, 0.2);
+        }
+        .profile-button:hover { 
+            background-color: var(--accent-hover); 
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(47, 129, 247, 0.3);
+        }
+
+        /* === PERBAIKAN FINAL UNTUK MENGHAPUS KOTAK PUTIH === */
+        .profile-button,
+        .profile-button:focus,
+        .profile-button:active {
+            outline: none !important;
+            box-shadow: none !important;
+            -webkit-tap-highlight-color: transparent !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="skeleton-loader" id="loader">
+            <div class="skeleton-avatar shimmer"></div>
+            <div class="skeleton-line w-75 shimmer"></div>
+            <div class="skeleton-line w-50 shimmer"></div>
+            <div class="skeleton-stats">
+                <div class="skeleton-stat shimmer"></div>
+                <div class="skeleton-stat shimmer"></div>
+                <div class="skeleton-stat shimmer"></div>
+            </div>
+        </div>
+
+        <main class="profile-card" id="main-container"></main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const USERNAME = 'nixy-pro';
+            const API_BASE = 'https://api.github.com/users/';
+            
+            const mainContainer = document.getElementById('main-container');
+            const loader = document.getElementById('loader');
+
+            function buildPageHTML(data) {
+                return `
+                    <img id="gh-avatar" src="${data.avatar_url}" alt="Avatar GitHub">
+                    <h1 id="gh-name">${data.name || data.login}</h1>
+                    <p id="gh-username">@${data.login}</p>
+                    <p id="gh-bio">${data.bio || 'Pengguna ini tidak memiliki bio.'}</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-item"><span>${data.public_repos}</span><p>Repositori</p></div>
+                        <div class="stat-item"><span>${data.followers}</span><p>Pengikut</p></div>
+                        <div class="stat-item"><span>${data.following}</span><p>Mengikuti</p></div>
+                    </div>
+                    
+                    <a href="${data.html_url}" target="_blank" rel="noopener noreferrer" class="profile-button">
+                        <i class="fab fa-github"></i>
+                    </a>
+                `;
+            }
+
+            async function main() {
+                try {
+                    const response = await fetch(`${API_BASE}${USERNAME}`);
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.message || `Error: ${response.status}`);
+                    }
+                    const userData = await response.json();
+                    
+                    mainContainer.innerHTML = buildPageHTML(userData);
+
+                } catch (error) {
+                    console.error("Gagal mengambil data:", error);
+                    mainContainer.innerHTML = `<p style="text-align:center; padding: 2rem; color: #ff8a8a;">Gagal memuat profil.<br><br>${error.message}</p>`;
+                } finally {
+                    loader.style.display = 'none';
+                    mainContainer.style.display = 'block';
+                }
+            }
+            
+            main();
+        });
+    </script>
+</body>
+</html>
