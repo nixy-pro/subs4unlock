@@ -1,0 +1,28 @@
+
+        <!DOCTYPE html>
+        <html lang="id">
+        <head>
+            <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Subs4Unlock</title>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <style>
+                :root{--primary-action-color:#007bff;--youtube-color:#ff0000;--whatsapp-color:#25d366;--bg-body:#f4f7f6;--bg-card:rgba(255,255,255,0.88);--text-dark:#2c3e50;--text-light:#576574;--shadow:0 10px 40px rgba(44,62,80,0.1);}
+                *{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Open Sans','Helvetica Neue',sans-serif;min-height:100svh;background-color:var(--bg-body);display:flex;align-items:center;justify-content:center}
+                .unlock-container{max-width:420px;width:calc(100% - 2rem);margin:2rem auto;background:var(--bg-card);backdrop-filter:blur(20px);border-radius:20px;box-shadow:var(--shadow);padding:2.2rem 1.8rem;text-align:center;color:var(--text-dark);opacity:0;animation:fadeInCard .6s forwards}@keyframes fadeInCard{to{opacity:1}}
+                h1{margin-bottom:.5rem}p{margin-bottom:1.5rem;color:var(--text-light)}.action-buttons button{width:100%;padding:14px;margin-bottom:1rem;font-size:1.05rem;font-weight:600;color:var(--text-dark);gap:12px;cursor:pointer;border-radius:14px;border:1px solid rgba(0,0,0,0.1);display:flex;align-items:center;justify-content:center}
+                #subscribeBtn .fa-brands{color:var(--youtube-color)}#joinWaBtn .fa-brands{color:var(--whatsapp-color)}.action-buttons button:disabled{cursor:not-allowed;opacity:0.6}
+                #unlockLink{text-decoration:none;padding:1rem;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+                #unlockLink.locked{border:2px dashed #ccc;color:var(--text-light);cursor:not-allowed}#unlockLink.unlocked{background-color:var(--primary-action-color);color:#fff;cursor:pointer}
+                #unlockLink .icon{font-size:2.2rem;margin-bottom:.8rem}
+            </style>
+        </head>
+        <body>
+            <div class="unlock-container"><h1>Konten Terkunci!</h1><p>Selesaikan langkah-langkah di bawah ini.</p>
+                <div class="action-buttons"><button id="subscribeBtn"><i class="fa-brands fa-youtube"></i> Subscribe Channel</button><button id="joinWaBtn" disabled><i class="fa-brands fa-whatsapp"></i> Gabung Channel</button></div>
+                <div id="unlockLink" class="locked"><div class="icon"><i id="unlockIcon" class="fa-solid fa-lock"></i></div><span class="text">Tautan Anda Terkunci</span></div>
+            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded',()=>{const YOUTUBE_URL="https://youtube.com/@nixymine_game",WHATSAPP_CHANNEL_URL="https://whatsapp.com/channel/0029VaaEx09CcW4j7D5XlR3m",TARGET_URL="k",subscribeBtn=document.getElementById("subscribeBtn"),joinWaBtn=document.getElementById("joinWaBtn"),unlockLink=document.getElementById("unlockLink"),state={subscribed:!1,joinedWa:!1};
+                const checkCompletion=()=>{if(state.subscribed&&state.joinedWa){unlockLink.classList.remove("locked");unlockLink.classList.add("unlocked");unlockLink.querySelector(".text").textContent="Buka Tautan";unlockLink.querySelector("#unlockIcon").className="fa-solid fa-arrow-up-right-from-square";unlockLink.addEventListener('click',()=>{window.open(TARGET_URL,'_blank')})}};
+                const handleAction=(btn,url,stateKey,nextBtn)=>{if(state[stateKey])return;window.open(url,"_blank");setTimeout(()=>{state[stateKey]=!0;btn.textContent="✅ Selesai";btn.disabled=!0;if(nextBtn)nextBtn.disabled=!1;checkCompletion()},4e3)};
+                subscribeBtn.addEventListener("click",()=>handleAction(subscribeBtn,YOUTUBE_URL,"subscribed",joinWaBtn));joinWaBtn.addEventListener("click",()=>handleAction(joinWaBtn,WHATSAPP_CHANNEL_URL,"joinedWa",null))});
+            
